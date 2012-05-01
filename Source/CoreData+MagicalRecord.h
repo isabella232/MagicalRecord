@@ -42,14 +42,16 @@
 #define MR_MINIMUM_PRIVATE_QUEUE_CF_VERSION kCFCoreFoundationVersionNumber_iPhoneOS_5_0
 #endif
 
+// Monkey Patch: Need to manually disable private queues, since they're not ready yet and were causing
+// freezes when multiple threads hit coredata: https://github.com/magicalpanda/MagicalRecord/issues/153
 #define PRIVATE_QUEUES_ENABLED(...) \
-    if (kCFCoreFoundationVersionNumber >= MR_MINIMUM_PRIVATE_QUEUE_CF_VERSION) \
+    if (NO) \
     { \
         __VA_ARGS__ \
     }
 
 #define THREAD_ISOLATION_ENABLED(...) \
-    if (kCFCoreFoundationVersionNumber < MR_MINIMUM_PRIVATE_QUEUE_CF_VERSION) \
+	if (YES) \
     { \
         __VA_ARGS__ \
     }
